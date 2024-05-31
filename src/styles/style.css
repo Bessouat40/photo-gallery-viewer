@@ -1,0 +1,17 @@
+.canva {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 15px;
+  background-color: rgb(102, 107, 111);
+  border-radius: 10px;
+}
+
+.canva img {
+  border-radius: 10px;
+}
+
+.canva img:hover {
+  transform: scale(1.1);
+}
