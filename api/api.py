@@ -35,32 +35,25 @@ async def get_images():
 
 async def get_all_images():
     try:
-        # Requête pour récupérer tous les documents de l'index "document"
         response = client.search(index="document", body={"query": {"match_all": {}}})
         hits = response["hits"]["hits"]
         
-        # Liste pour stocker toutes les images
         images = []
         
         for hit in hits:
-            # Extraire les données du document et l'extension du fichier
             document_data = hit["_source"]["document_embedding"]
             extension = hit["_source"]["extension"]
             
-            # Décoder les données du document base64
             document_content = base64.b64decode(document_data)
             
-            # Créer une image à partir des données binaires
             try:
                 document = Image.open(io.BytesIO(document_content))
                 img_byte_arr = io.BytesIO()
                 document.save(img_byte_arr, format=extension)
                 img_byte_arr.seek(0)
                 
-                # Convertir l'image en base64 pour l'inclure dans la réponse JSON
                 image_base64 = base64.b64encode(img_byte_arr.read()).decode('utf-8')
                 
-                # Ajouter l'image à la liste des images
                 images.append({
                     "document_id": hit["_id"],
                     "image_base64": image_base64
