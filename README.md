@@ -68,3 +68,9 @@ async def get_all_images():
 ## Application
 
 ![screen](./assets/screen.png)
+
+## TODO
+
+- [ ] Add CLIP use for image filtering,
+- [ ] Add paging,
+- [ ] Application conteneurisation
