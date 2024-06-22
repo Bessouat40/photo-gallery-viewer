@@ -73,4 +73,5 @@ async def get_all_images():
 
 - [ ] Add CLIP use for image filtering,
 - [ ] Add paging,
-- [ ] Application conteneurisation
+- [ ] Application conteneurisation,
+- [ ] Allow CLIP use when offline
