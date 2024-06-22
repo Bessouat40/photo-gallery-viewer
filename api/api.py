@@ -22,7 +22,6 @@ client = Elasticsearch("http://localhost:9200")
 
 @app.get('/images')
 async def get_images():
-    print('coucou')
     return ["/assets/chien.jpeg" for i in range(10)]
 
 @app.get("/get_all_images")

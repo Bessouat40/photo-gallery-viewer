@@ -16,10 +16,11 @@ body {
 }
 
 .search-page {
+  width: 100%;
   padding-top: 20px;
   flex-direction: column;
   display: flex;
-  justify-content: center;
+  /* justify-content: center;*/
   align-items: center;
 }
 
@@ -72,7 +73,7 @@ body {
 }
 
 .canva {
-  gap: 20px;
+  gap: 50px;
   padding: 15px;
   background-color: rgb(102, 107, 111);
   overflow-y: auto;

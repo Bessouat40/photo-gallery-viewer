@@ -15,33 +15,33 @@ async function sendFetch(): Promise<ImageData[]> {
 }
 
 export async function getData(): Promise<[number, number, string[]]> {
-  try {
-    const columns: number = 4;
-    const resp = await sendFetch();
-    const response: string[] = resp.map(
-      (image) => `data:image/jpeg;base64,${image.image_base64}`
-    );
-    const rows: number = Math.ceil(response.length / columns);
+  // try {
+  //   const columns: number = 4;
+  //   const resp = await sendFetch();
+  //   const response: string[] = resp.map(
+  //     (image) => `data:image/jpeg;base64,${image.image_base64}`
+  //   );
+  //   const rows: number = Math.ceil(response.length / columns);
 
-    return [columns, rows, response];
-  } catch {
-    const dogPath: string = '../assets/chien.jpeg';
-    const searchPath: string = '../assets/search.png';
-    return [
-      4,
-      2,
-      [
-        dogPath,
-        dogPath,
-        dogPath,
-        dogPath,
-        searchPath,
-        searchPath,
-        searchPath,
-        searchPath,
-      ],
-    ];
-  }
+  //   return [columns, rows, response];
+  // } catch {
+  const dogPath: string = '../assets/chien.jpeg';
+  const searchPath: string = '../assets/search.png';
+  return [
+    4,
+    2,
+    [
+      dogPath,
+      dogPath,
+      dogPath,
+      dogPath,
+      searchPath,
+      searchPath,
+      searchPath,
+      searchPath,
+    ],
+  ];
+  // }
 }
 
 export const formatCanvaElements = (
