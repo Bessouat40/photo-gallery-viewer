@@ -1,16 +1,29 @@
 import { Image } from '../components/image';
 
-export const getData = async () => {
-  try {
-    const resp = await fetch('http://0.0.0.0:8000/images', {
-      method: 'GET',
-    }).then((data) => {
-      return data.json();
-    });
+interface ImageData {
+  document_id: string;
+  image_base64: string;
+}
 
+async function sendFetch(): Promise<ImageData[]> {
+  const resp = await fetch('http://0.0.0.0:8000/get_all_images', {
+    method: 'GET',
+  }).then((data) => {
+    return data.json();
+  });
+  return resp.images;
+}
+
+export async function getData(): Promise<[number, number, string[]]> {
+  try {
     const columns: number = 4;
-    const rows: number = Math.ceil(resp.length / columns);
-    return [columns, rows, resp];
+    const resp = await sendFetch();
+    const response: string[] = resp.map(
+      (image) => `data:image/jpeg;base64,${image.image_base64}`
+    );
+    const rows: number = Math.ceil(response.length / columns);
+
+    return [columns, rows, response];
   } catch {
     const dogPath: string = '../assets/chien.jpeg';
     const searchPath: string = '../assets/search.png';
@@ -29,7 +42,7 @@ export const getData = async () => {
       ],
     ];
   }
-};
+}
 
 export const formatCanvaElements = (
   input: string[],

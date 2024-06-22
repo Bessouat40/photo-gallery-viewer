@@ -3,7 +3,6 @@ import { CanvaView } from './views/CanvaView';
 import { CanvaController } from './controllers/CanvaController';
 import { NavBar } from './components/navbar';
 import { SearchBar } from './components/searchbar';
-import { Image } from './components/image';
 import { getData, formatCanvaElements } from './utils/network';
 
 export class App {
