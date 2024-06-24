@@ -79,7 +79,6 @@ export async function getFilteredData(
   userQuery: string
 ): Promise<HTMLElement[]> {
   const columns: number = 4;
-  alert('start');
   const resp = await sendFilteredFetch(userQuery);
   const response: string[] = resp.map(
     (image) => `data:image/jpeg;base64,${image.image_base64}`

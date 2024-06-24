@@ -28,10 +28,8 @@ export class CanvaController {
   }
 
   private async handleSearchQuery(userQuery: string): Promise<void> {
-    alert(userQuery);
     const elements = await getFilteredData(userQuery);
     this.model.setElements(elements);
-    alert(elements);
   }
 
   addElement(element: HTMLElement): void {
