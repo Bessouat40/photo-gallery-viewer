@@ -83,7 +83,8 @@ async def get_all_images():
 ## Application
 
 ![screen](./assets/screen.png)
-<video src='./assets/demo.mov'></video>
+
+![demo](./assets/demo.gif)
 
 ## TODO
 
