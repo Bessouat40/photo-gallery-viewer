@@ -82,8 +82,6 @@ async def get_all_images():
 
 ## Application
 
-![screen](./assets/screen.png)
-
 ![demo](./assets/demo.gif)
 
 ## TODO
