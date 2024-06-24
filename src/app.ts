@@ -41,6 +41,7 @@ export class App {
     const canvaController = new CanvaController(
       canvaModel,
       canvaView,
+      searchBar,
       columns,
       rows,
       name

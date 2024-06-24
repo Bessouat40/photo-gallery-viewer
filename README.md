@@ -2,6 +2,21 @@
 
 This project allows you to visualize your images stored inside an Elastic database.
 
+## Launch application
+
+- You need to launch frontend :
+
+```bash
+npm start
+```
+
+- You need to launch backend :
+
+```bash
+cd api
+python main.py
+```
+
 ## Requirements
 
 - You need to change `src/utils/network.ts` with your database informations. You need to change the interface to match your database structure :

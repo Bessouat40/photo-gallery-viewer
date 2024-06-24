@@ -39,7 +39,15 @@ export class CanvaView {
     }
   }
 
+  public clearCanva(): void {
+    while (this.canva.firstChild) {
+      this.canva.removeChild(this.canva.firstChild);
+    }
+  }
+
   public populateCanva(elements: HTMLElement[]): void {
+    this.clearCanva();
+
     const cells = this.canva.children;
     for (let idx = 0; idx < elements.length; idx++) {
       if (idx === cells.length) {
