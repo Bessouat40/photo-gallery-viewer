@@ -83,10 +83,11 @@ async def get_all_images():
 ## Application
 
 ![screen](./assets/screen.png)
+<video src='./assets/demo.mov'></video>
 
 ## TODO
 
-- [ ] Add CLIP use for image filtering,
+- [x] Add CLIP use for image filtering,
 - [ ] Add paging,
 - [ ] Application conteneurisation,
 - [ ] Allow CLIP use when offline
