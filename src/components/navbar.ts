@@ -18,7 +18,7 @@ export class NavBar {
     items.forEach((item) => {
       const li = document.createElement('li');
       const a = document.createElement('a');
-      a.href = '#';
+      a.href = '';
       const img = document.createElement('img');
       img.src = item.icon;
       img.alt = item.label;
