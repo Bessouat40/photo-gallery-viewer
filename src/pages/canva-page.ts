@@ -8,14 +8,13 @@ export class CanvaPage {
   page!: HTMLElement;
 
   constructor() {
-    this.initPage();
+    // this.initPage();
   }
 
-  private async initPage(): Promise<void> {
+  public async initPage(): Promise<void> {
     // create page container
     const containerDiv = document.createElement('div');
     containerDiv.classList.add('search-page');
-    document.body.appendChild(containerDiv);
 
     // init searchbar
     const searchBar = new SearchBar('main-search');
@@ -40,5 +39,6 @@ export class CanvaPage {
     const elements: HTMLElement[] = formatCanvaElements(resp, columns, rows);
     canvaController.setElements(elements);
     containerDiv.appendChild(canvaView.getCanva());
+    this.page = containerDiv;
   }
 }

@@ -1,12 +1,15 @@
 export class NavBar {
   navBar!: HTMLElement;
 
-  constructor(items: { icon: string; label: string }[], id: string) {
+  constructor(
+    items: { icon: string; label: string; url: string }[],
+    id: string
+  ) {
     this.initNavBar(items, id);
   }
 
   private initNavBar(
-    items: { icon: string; label: string }[],
+    items: { icon: string; label: string; url: string }[],
     id: string
   ): void {
     const nav = document.createElement('nav');
@@ -18,7 +21,7 @@ export class NavBar {
     items.forEach((item) => {
       const li = document.createElement('li');
       const a = document.createElement('a');
-      a.href = '';
+      a.href = item.url;
       const img = document.createElement('img');
       img.src = item.icon;
       img.alt = item.label;

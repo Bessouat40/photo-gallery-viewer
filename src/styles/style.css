@@ -15,6 +15,44 @@ body {
   overflow: hidden;
 }
 
+.content {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center align items horizontally */
+}
+
+/* Upload */
+.upload-container {
+  width: 100%;
+  padding-top: 20px;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+}
+
+.upload-container input[type='file'] {
+  display: none;
+}
+
+.upload-container label span {
+  color: white;
+  padding: 8px 12px;
+  background-color: #444;
+  border: 1px dashed #ccc;
+  cursor: pointer;
+}
+
+.upload-container label span:hover {
+  background-color: #b4b4b4;
+}
+
+.upload-container p {
+  color: white;
+}
+/*  */
+
 .search-page {
   width: 100%;
   padding-top: 20px;
@@ -56,12 +94,12 @@ body {
 }
 
 .vertical-nav ul li a img {
-  width: 120%;
-  height: 120%;
+  width: 70px;
+  height: 70px;
   background: transparent;
 }
 
-.vertical-nav ul li a:hover {
+.vertical-nav ul li a img:hover {
   background-color: #444;
 }
 
