@@ -1,4 +1,5 @@
 import { Upload } from '../components/upload';
+import { storeImages } from '../utils/network';
 
 export class UploadPage {
   page!: HTMLElement;
@@ -16,8 +17,15 @@ export class UploadPage {
     button.classList.add('search-button');
     button.textContent = 'Send into database';
 
-    button.onclick = () => {
-      console.log(upload.files);
+    button.onclick = async () => {
+      const files = upload.getFiles();
+      console.log('files : ', files);
+      if (files.length > 0) {
+        const status = await storeImages(files);
+        console.log(`Response status: ${status}`);
+      } else {
+        console.log('No files selected.');
+      }
     };
 
     container.appendChild(button);

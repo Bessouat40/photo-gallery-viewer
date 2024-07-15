@@ -21,6 +21,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center; /* Center align items horizontally */
+  overflow: hidden;
 }
 
 /* Upload */
@@ -60,6 +61,7 @@ body {
   display: flex;
   /* justify-content: center;*/
   align-items: center;
+  overflow: hidden;
 }
 
 .vertical-nav {
@@ -114,7 +116,7 @@ body {
   gap: 50px;
   padding: 15px;
   background-color: rgb(102, 107, 111);
-  overflow-y: auto;
+  overflow-y: auto; /* Ajouté pour permettre le défilement vertical */
   max-height: 100%;
 }
 

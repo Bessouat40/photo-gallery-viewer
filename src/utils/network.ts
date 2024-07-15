@@ -20,11 +20,25 @@ async function sendFilteredFetch(user_query: string): Promise<ImageData[]> {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ user_query: user_query }), // Ajouter le paramètre ici
+    body: JSON.stringify({ user_query: user_query }),
   }).then((data) => {
     return data.json();
   });
   return resp.images;
+}
+
+export async function storeImages(images: File[]): Promise<number> {
+  const formData = new FormData();
+  images.forEach((image, index) => {
+    formData.append('files', image);
+  });
+
+  const resp = await fetch('http://0.0.0.0:8000/store_images', {
+    method: 'POST',
+    body: formData,
+  });
+
+  return resp.status;
 }
 
 export async function getData(): Promise<[number, number, string[]]> {
