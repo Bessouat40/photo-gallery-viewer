@@ -92,3 +92,4 @@ async def get_all_images():
 - [ ] Add paging,
 - [ ] Application conteneurisation,
 - [ ] Allow CLIP use when offline
+- [ ] Work on an easy launching method
