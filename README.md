@@ -87,6 +87,8 @@ async def get_all_images():
 ## TODO
 
 - [x] Add CLIP use for image filtering,
+- [ ] Change elasticsearch database : store only embeddings + ref to local images and not encoded images,
+- [ ] Change CLIP filter to match new software structure,
 - [ ] Add paging,
 - [ ] Application conteneurisation,
 - [ ] Allow CLIP use when offline
