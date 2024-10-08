@@ -165,6 +165,7 @@ body {
 .search-bar-container {
   display: flex;
   align-items: center;
+  padding-bottom: 10px;
   gap: 10px; /* Espace entre l'input et le bouton */
 }
 

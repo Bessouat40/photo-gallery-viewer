@@ -1,11 +1,13 @@
 import { Image } from '../components/image';
 
+const backendURL = 'http://localhost:8000';
+
 interface ImageData {
   document_id: string;
   image_base64: string;
 }
 
-async function sendFetch(): Promise<ImageData[]> {
+async function sendFetch(): Promise<string[]> {
   const resp = await fetch('http://0.0.0.0:8000/get_all_images', {
     method: 'GET',
   }).then((data) => {
@@ -42,33 +44,31 @@ export async function storeImages(images: File[]): Promise<number> {
 }
 
 export async function getData(): Promise<[number, number, string[]]> {
-  try {
-    const columns: number = 4;
-    const resp = await sendFetch();
-    const response: string[] = resp.map(
-      (image) => `data:image/jpeg;base64,${image.image_base64}`
-    );
-    const rows: number = Math.ceil(response.length / columns);
+  // try {
+  const columns: number = 4;
+  const resp = await sendFetch();
+  const response: string[] = resp;
+  const rows: number = Math.ceil(response.length / columns);
 
-    return [columns, rows, response];
-  } catch {
-    const dogPath: string = '../assets/chien.jpeg';
-    const searchPath: string = '../assets/search.png';
-    return [
-      4,
-      2,
-      [
-        dogPath,
-        dogPath,
-        dogPath,
-        dogPath,
-        searchPath,
-        searchPath,
-        searchPath,
-        searchPath,
-      ],
-    ];
-  }
+  return [columns, rows, response];
+  // } catch {
+  //   const dogPath: string = '../data/chien.jpeg';
+  //   const searchPath: string = '../assets/search.png';
+  //   return [
+  //     4,
+  //     2,
+  //     [
+  //       dogPath,
+  //       dogPath,
+  //       dogPath,
+  //       dogPath,
+  //       searchPath,
+  //       searchPath,
+  //       searchPath,
+  //       searchPath,
+  //     ],
+  //   ];
+  // }
 }
 
 export const formatCanvaElements = (
@@ -81,7 +81,8 @@ export const formatCanvaElements = (
     for (let col = 0; col < columns; col++) {
       let idx: number = col + row * 4;
       if (idx < input.length) {
-        const image = new Image(input[idx], `${col}-${row}`, 250, 200);
+        const fullImageUrl = `${backendURL}${input[idx]}`;
+        const image = new Image(fullImageUrl, `${col}-${row}`, 250, 200);
         elements.push(image.image);
       }
     }

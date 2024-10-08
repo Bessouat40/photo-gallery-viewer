@@ -2,6 +2,7 @@ import warnings
 from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 from typing import List
 from pydantic import BaseModel
 import tempfile
@@ -16,7 +17,7 @@ from elasticLibrary.embeddings import CLIPEmbeddingStrategy, DummyEmbeddingStrat
 import os
 
 TEMP_UPLOAD_FOLDER = tempfile.mkdtemp()
-
+print("config : ", Config.ELASTIC_HOST, Config.ELASTIC_PORT)
 es_manager = ElasticsearchManager(Config.ELASTIC_HOST, Config.ELASTIC_PORT)
 image_processor = ImageProcessor()
 clip_strategy = CLIPEmbeddingStrategy()
@@ -31,6 +32,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.mount("/images", StaticFiles(directory=Config.DATA_FOLDER), name="images")
 
 class QueryModel(BaseModel):
     user_query: str
@@ -62,19 +65,25 @@ async def store_images(files: List[UploadFile] = File(...)):
 
 @app.get("/get_all_images")
 async def get_images():
-    try:
-        query = {
-            "query": {"match_all": {}},
-            "size": 1000
-        }
-        hits = es_manager.search_documents(query)['hits']['hits']
-        images = []
-        for hit in hits : 
-            images.append(image_processor.load_image_from_elastic(hit))
-        print('images : ', len(images))
-        return {"images": images}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+    imagesDirs = [f"/images/{file}" for file in os.listdir(Config.DATA_FOLDER) if file.endswith(('jpg', 'jpeg', 'png'))]
+    return {"images": imagesDirs}
+
+# @app.get("/get_all_images")
+# async def get_images():
+#     try:
+#         query = {
+#             "query": {"match_all": {}},
+#             "size": 1000
+#         }
+#         hits = es_manager.search_documents(query)['hits']['hits']
+#         images = []
+#         for hit in hits : 
+#             images.append(image_processor.load_image_from_elastic(hit))
+#         print('images : ', len(images))
+#         return {"images": images}
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+    
 @app.post("/get_filtered_images")
 async def get_images(query_model: QueryModel):
     # try:

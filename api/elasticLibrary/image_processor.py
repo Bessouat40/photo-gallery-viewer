@@ -37,7 +37,7 @@ class ImageProcessor:
                 img_byte_arr.seek(0)
                 image_base64 = base64.b64encode(img_byte_arr.read()).decode('utf-8')
             
-            return {"document_id": hit["_id"], "image_base64": image_base64}
+            return {"document_id": hit["_id"], "image_base64": image_base64}    
         
         except Exception as e:
             print(f"Error loading image from Elasticsearch: {e}")
