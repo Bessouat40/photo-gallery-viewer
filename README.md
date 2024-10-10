@@ -51,8 +51,8 @@ mv src/config_template.json src/config.json
 
 ## Application
 
-<video width="320" height="240" controls>
-  <source src="path_to_your_video.mov" type="video/quicktime">
+<video controls>
+  <source src="./assets/demo_app.mov" type="video/quicktime">
 </video>
 
 ## TODO
