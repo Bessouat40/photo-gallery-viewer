@@ -1,12 +1,11 @@
 import { Image } from '../components/image';
 
-interface ImageData {
-  document_id: string;
-  image_base64: string;
-}
+import * as config from '../config.json';
 
-async function sendFetch(): Promise<ImageData[]> {
-  const resp = await fetch('http://0.0.0.0:8000/get_all_images', {
+const backendURL = config.backendURL;
+
+async function sendFetch(): Promise<string[]> {
+  const resp = await fetch(`${backendURL}/get_all_images`, {
     method: 'GET',
   }).then((data) => {
     return data.json();
@@ -14,8 +13,8 @@ async function sendFetch(): Promise<ImageData[]> {
   return resp.images;
 }
 
-async function sendFilteredFetch(user_query: string): Promise<ImageData[]> {
-  const resp = await fetch('http://0.0.0.0:8000/get_filtered_images', {
+async function sendFilteredFetch(user_query: string): Promise<string[]> {
+  const resp = await fetch(`${backendURL}/get_filtered_images`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -33,7 +32,7 @@ export async function storeImages(images: File[]): Promise<number> {
     formData.append('files', image);
   });
 
-  const resp = await fetch('http://0.0.0.0:8000/store_images', {
+  const resp = await fetch(`${backendURL}/store_images`, {
     method: 'POST',
     body: formData,
   });
@@ -42,33 +41,12 @@ export async function storeImages(images: File[]): Promise<number> {
 }
 
 export async function getData(): Promise<[number, number, string[]]> {
-  try {
-    const columns: number = 4;
-    const resp = await sendFetch();
-    const response: string[] = resp.map(
-      (image) => `data:image/jpeg;base64,${image.image_base64}`
-    );
-    const rows: number = Math.ceil(response.length / columns);
+  const columns: number = 4;
+  const resp = await sendFetch();
+  const response: string[] = resp;
+  const rows: number = Math.ceil(response.length / columns);
 
-    return [columns, rows, response];
-  } catch {
-    const dogPath: string = '../assets/chien.jpeg';
-    const searchPath: string = '../assets/search.png';
-    return [
-      4,
-      2,
-      [
-        dogPath,
-        dogPath,
-        dogPath,
-        dogPath,
-        searchPath,
-        searchPath,
-        searchPath,
-        searchPath,
-      ],
-    ];
-  }
+  return [columns, rows, response];
 }
 
 export const formatCanvaElements = (
@@ -81,7 +59,8 @@ export const formatCanvaElements = (
     for (let col = 0; col < columns; col++) {
       let idx: number = col + row * 4;
       if (idx < input.length) {
-        const image = new Image(input[idx], `${col}-${row}`, 250, 200);
+        const fullImageUrl = `${backendURL}${input[idx]}`;
+        const image = new Image(fullImageUrl, `${col}-${row}`, 250, 200);
         elements.push(image.image);
       }
     }
@@ -94,10 +73,7 @@ export async function getFilteredData(
 ): Promise<HTMLElement[]> {
   const columns: number = 4;
   const resp = await sendFilteredFetch(userQuery);
-  const response: string[] = resp.map(
-    (image) => `data:image/jpeg;base64,${image.image_base64}`
-  );
-  const rows: number = Math.ceil(response.length / columns);
-  const elements: HTMLElement[] = formatCanvaElements(response, columns, rows);
+  const rows: number = Math.ceil(resp.length / columns);
+  const elements: HTMLElement[] = formatCanvaElements(resp, columns, rows);
   return elements;
 }

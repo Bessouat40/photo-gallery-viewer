@@ -1,6 +1,5 @@
 import { NavBar } from './components/navbar';
 import { CanvaPage } from './pages/canva-page';
-import { Upload } from './components/upload';
 import { UploadPage } from './pages/upload-page';
 
 export class App {
@@ -11,7 +10,7 @@ export class App {
 
   private initApp(): void {
     const navItems = [
-      { icon: '/assets/home.png', label: 'Home', url: '/home' },
+      { icon: '/assets/home.png', label: 'Home', url: '/' },
       { icon: '/assets/upload.png', label: 'Upload', url: '/upload' },
       { icon: '/assets/settings.png', label: 'Settings', url: '/settings' },
     ];
@@ -39,7 +38,7 @@ export class App {
 
     content.innerHTML = '';
 
-    if (path === '/home') {
+    if (path === '/') {
       const canvaPage = new CanvaPage();
       await canvaPage.initPage();
       content.appendChild(canvaPage.page);
@@ -49,7 +48,7 @@ export class App {
     } else if (path === '/settings') {
       content.innerHTML = '<h1>Settings Page</h1>';
     } else {
-      content.innerHTML = '<h1>Home Page</h1>';
+      content.innerHTML = '<h1>Unknown page</h1>';
     }
   }
 }

@@ -1,7 +1,11 @@
 import { CanvaModel } from '../models/CanvaModel';
 import { CanvaView } from '../views/CanvaView';
 import { SearchBar } from '../components/searchbar';
-import { getFilteredData } from '../utils/network';
+import {
+  formatCanvaElements,
+  getData,
+  getFilteredData,
+} from '../utils/network';
 
 export class CanvaController {
   constructor(
@@ -22,9 +26,20 @@ export class CanvaController {
   }
 
   private initSearchBar(): void {
-    this.searchBar.setCallback((userQuery: string) => {
-      this.handleSearchQuery(userQuery);
-    });
+    this.searchBar.setCallback(
+      (userQuery: string) => {
+        this.handleSearchQuery(userQuery);
+      },
+      async () => {
+        const [columns, rows, resp] = await getData();
+        const elements: HTMLElement[] = formatCanvaElements(
+          resp,
+          columns,
+          rows
+        );
+        this.setElements(elements);
+      }
+    );
   }
 
   private async handleSearchQuery(userQuery: string): Promise<void> {

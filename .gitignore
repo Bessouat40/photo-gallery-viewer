@@ -1,3 +1,6 @@
 node_modules/
 dist/
+data/
 **/__pycache__/
+.env
+src/config.json
