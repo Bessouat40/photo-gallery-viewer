@@ -19,77 +19,48 @@ python main.py
 
 ## Requirements
 
-- You need to change `src/utils/network.ts` with your database informations. You need to change the interface to match your database structure :
+### Database
 
-```typescript
-interface ImageData {
-  document_id: string;
-  image_base64: string;
-} // adapt with your structure
+You need to have an `elasticsearch` database,
+
+### Environment
+
+You need to configure your environment.
+First :
+
+```bash
+mv .env.example .env
 ```
 
-- Actually, your image needs to be stored being encoded 64 bits, so you can use it as source to display it :
+Then fill .env file with your informations.
+`DATA_FOLDER` is the folder where you'll store all your images.
 
-```typescript
-export async function getData(): Promise<[number, number, string[]]> {
-  try {
-    const columns: number = 4;
-    const resp = await sendFetch();
-    const response: string[] = resp.map(
-      (image) => `data:image/jpeg;base64,${image.image_base64}` // here replace with your elastic structure
-    );
-    const rows: number = Math.ceil(response.length / columns);
+### IP Adress
+
+Finally, you need to enter your frontend adress into `src/config.json`.
+
+```bash
+mv src/config_template.json src/config.json
 ```
 
-- You need to change `api/api.py` to adapt the code with your Elastic configuration :
-
-```python
-async def get_all_images():
-    try:
-        response = client.search(index="document", body={"query": {"match_all": {}}})
-        hits = response["hits"]["hits"]
-
-        images = []
-
-        for hit in hits:
-            document_data = hit["_source"]["document_embedding"]
-            extension = hit["_source"]["extension"]
-
-            document_content = base64.b64decode(document_data)
-
-            try:
-                document = Image.open(io.BytesIO(document_content))
-                img_byte_arr = io.BytesIO()
-                document.save(img_byte_arr, format=extension)
-                img_byte_arr.seek(0)
-
-                image_base64 = base64.b64encode(img_byte_arr.read()).decode('utf-8')
-
-                images.append({
-                    "document_id": hit["_id"],
-                    "image_base64": image_base64
-                })
-
-            except Exception as e:
-                print(f"Error processing document with ID {hit['_id']}: {str(e)}")
-
-        return images
-
-    except Exception as e:
-        print(f"Error retrieving images from Elasticsearch: {str(e)}")
-        return []
+```json
+{
+  "backendURL": // ex : http://localhost:8000
+}
 ```
 
 ## Application
 
-![demo](./assets/demo.gif)
+<video width="320" height="240" controls>
+  <source src="path_to_your_video.mov" type="video/quicktime">
+</video>
 
 ## TODO
 
 - [x] Add CLIP use for image filtering,
-- [ ] Change elasticsearch database : store only embeddings + ref to local images and not encoded images,
-- [ ] Change CLIP filter to match new software structure,
+- [x] Change elasticsearch database : store only embeddings + ref to local images and not encoded images,
+- [x] Change CLIP filter to match new software structure,
+- [ ] Work on an easy launching method
 - [ ] Add paging,
 - [ ] Application conteneurisation,
 - [ ] Allow CLIP use when offline
-- [ ] Work on an easy launching method

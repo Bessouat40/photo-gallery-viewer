@@ -1,6 +1,6 @@
 import { Image } from '../components/image';
 
-import * as config from '../../config.json';
+import * as config from '../config.json';
 
 const backendURL = config.backendURL;
 
