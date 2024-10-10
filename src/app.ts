@@ -1,6 +1,5 @@
 import { NavBar } from './components/navbar';
 import { CanvaPage } from './pages/canva-page';
-import { Upload } from './components/upload';
 import { UploadPage } from './pages/upload-page';
 
 export class App {

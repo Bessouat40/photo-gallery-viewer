@@ -16,7 +16,7 @@ async function sendFetch(): Promise<string[]> {
   return resp.images;
 }
 
-async function sendFilteredFetch(user_query: string): Promise<ImageData[]> {
+async function sendFilteredFetch(user_query: string): Promise<string[]> {
   const resp = await fetch('http://0.0.0.0:8000/get_filtered_images', {
     method: 'POST',
     headers: {
@@ -95,10 +95,7 @@ export async function getFilteredData(
 ): Promise<HTMLElement[]> {
   const columns: number = 4;
   const resp = await sendFilteredFetch(userQuery);
-  const response: string[] = resp.map(
-    (image) => `data:image/jpeg;base64,${image.image_base64}`
-  );
-  const rows: number = Math.ceil(response.length / columns);
-  const elements: HTMLElement[] = formatCanvaElements(response, columns, rows);
+  const rows: number = Math.ceil(resp.length / columns);
+  const elements: HTMLElement[] = formatCanvaElements(resp, columns, rows);
   return elements;
 }

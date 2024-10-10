@@ -37,13 +37,13 @@ class ElasticsearchManager:
         else:
             return 0
 
-    def index_document(self, document_id, document_embedding, clip_embedding, extension):
+    def index_document(self, document_id, elastic_file_path, clip_embedding, extension):
         if extension.upper() == 'JPG' : 
             extension = 'jpeg'
         try:
             doc = {
                 "document_id": document_id,
-                "document_embedding": document_embedding,
+                "elastic_file_path": elastic_file_path,
                 "clip_embedding": clip_embedding,
                 "extension": extension
             }
@@ -81,10 +81,9 @@ class ElasticsearchManager:
             image_features_decoded = torch.tensor(decoded_image_features_np.reshape(decoded_image_features_np.shape))
 
             if self.calculate_distance(text_features, image_features_decoded) > 0.2:
-                loaded_image = self.processor.load_image_from_elastic(hit)
+                loaded_image = hit["_source"]["elastic_file_path"]
                 if loaded_image:
                     images.append(loaded_image)
-        
         return images
 
     @staticmethod

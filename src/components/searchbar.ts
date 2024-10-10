@@ -2,7 +2,8 @@ export class SearchBar {
   searchBarContainer!: HTMLElement;
   searchBar!: HTMLInputElement;
   searchButton!: HTMLButtonElement;
-  callback!: (userQuery: string) => void;
+  searchCallback!: (userQuery: string) => void;
+  clearCallback!: () => void;
 
   constructor(id: string) {
     this.initSearchBar(id);
@@ -24,13 +25,25 @@ export class SearchBar {
 
     button.onclick = () => {
       const userQuery = search.value;
-      if (this.callback) {
-        this.searchQuerySimilarity(this.callback, userQuery);
+      if (this.searchCallback) {
+        this.searchQuerySimilarity(this.searchCallback, userQuery);
+      }
+    };
+
+    const clearButton = document.createElement('button') as HTMLButtonElement;
+    clearButton.classList.add('search-button');
+    clearButton.textContent = 'Clear';
+
+    clearButton.onclick = () => {
+      if (this.clearCallback) {
+        this.clearCallback();
+        search.value = '';
       }
     };
 
     container.appendChild(search);
     container.appendChild(button);
+    container.appendChild(clearButton);
 
     this.searchBarContainer = container;
     this.searchBar = search;
@@ -44,7 +57,11 @@ export class SearchBar {
     callback(userQuery);
   }
 
-  setCallback(callback: (userQuery: string) => void): void {
-    this.callback = callback;
+  setCallback(
+    searchCallback: (userQuery: string) => void,
+    clearCallback: () => void
+  ): void {
+    this.searchCallback = searchCallback;
+    this.clearCallback = clearCallback;
   }
 }
