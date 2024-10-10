@@ -51,9 +51,7 @@ mv src/config_template.json src/config.json
 
 ## Application
 
-<video controls>
-  <source src="./assets/demo_app.mov" type="video/quicktime">
-</video>
+[Demonstration](https://x.com/rbessouat/status/1844468605368594876)
 
 ## TODO
 
