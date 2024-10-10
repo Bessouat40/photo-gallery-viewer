@@ -3,3 +3,4 @@ dist/
 data/
 **/__pycache__/
 .env
+config.json

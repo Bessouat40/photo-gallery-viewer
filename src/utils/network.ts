@@ -1,14 +1,11 @@
 import { Image } from '../components/image';
 
-const backendURL = 'http://localhost:8000';
+import * as config from '../../config.json';
 
-interface ImageData {
-  document_id: string;
-  image_base64: string;
-}
+const backendURL = config.backendURL;
 
 async function sendFetch(): Promise<string[]> {
-  const resp = await fetch('http://0.0.0.0:8000/get_all_images', {
+  const resp = await fetch(`${backendURL}/get_all_images`, {
     method: 'GET',
   }).then((data) => {
     return data.json();
@@ -17,7 +14,7 @@ async function sendFetch(): Promise<string[]> {
 }
 
 async function sendFilteredFetch(user_query: string): Promise<string[]> {
-  const resp = await fetch('http://0.0.0.0:8000/get_filtered_images', {
+  const resp = await fetch(`${backendURL}/get_filtered_images`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -35,7 +32,7 @@ export async function storeImages(images: File[]): Promise<number> {
     formData.append('files', image);
   });
 
-  const resp = await fetch('http://0.0.0.0:8000/store_images', {
+  const resp = await fetch(`${backendURL}/store_images`, {
     method: 'POST',
     body: formData,
   });
@@ -44,31 +41,12 @@ export async function storeImages(images: File[]): Promise<number> {
 }
 
 export async function getData(): Promise<[number, number, string[]]> {
-  // try {
   const columns: number = 4;
   const resp = await sendFetch();
   const response: string[] = resp;
   const rows: number = Math.ceil(response.length / columns);
 
   return [columns, rows, response];
-  // } catch {
-  //   const dogPath: string = '../data/chien.jpeg';
-  //   const searchPath: string = '../assets/search.png';
-  //   return [
-  //     4,
-  //     2,
-  //     [
-  //       dogPath,
-  //       dogPath,
-  //       dogPath,
-  //       dogPath,
-  //       searchPath,
-  //       searchPath,
-  //       searchPath,
-  //       searchPath,
-  //     ],
-  //   ];
-  // }
 }
 
 export const formatCanvaElements = (

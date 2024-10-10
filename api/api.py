@@ -11,18 +11,14 @@ import uuid
 from elasticsearch import Elasticsearch
 
 from elasticLibrary.elasticsearch_manager import ElasticsearchManager
-from elasticLibrary.image_processor import ImageProcessor
 from elasticLibrary.config import Config
-from elasticLibrary.embeddings import CLIPEmbeddingStrategy, DummyEmbeddingStrategy
+from elasticLibrary.embeddings import CLIPEmbeddingStrategy
 
 import os
 
 TEMP_UPLOAD_FOLDER = tempfile.mkdtemp()
-print("config : ", Config.ELASTIC_HOST, Config.ELASTIC_PORT)
 es_manager = ElasticsearchManager(Config.ELASTIC_HOST, Config.ELASTIC_PORT)
-image_processor = ImageProcessor()
 clip_strategy = CLIPEmbeddingStrategy()
-dummy_strategy = DummyEmbeddingStrategy()
 
 app = FastAPI()
 
@@ -39,36 +35,34 @@ app.mount("/images", StaticFiles(directory=Config.DATA_FOLDER), name="images")
 class QueryModel(BaseModel):
     user_query: str
 
-client = Elasticsearch("http://localhost:9200")
-
 @app.post('/store_images')
 async def store_images(files: List[UploadFile] = File(...)):
     image_ids = []
-    # try:
-    last_id = es_manager.get_last_document_id()
-    for idx, file in enumerate(files):
-        image_id = str(uuid.uuid4())
-        file_extension = file.filename.split('.')[-1]
-        permanent_file_path = os.path.join(Config.DATA_FOLDER, f"{image_id}.{file_extension}")
-        elastic_file_path = os.path.join("/images/", f"{image_id}.{file_extension}")
-        
-        with open(permanent_file_path, "wb") as permanent_file:
-            permanent_file.write(await file.read())
-        
-        clip_embedding = clip_strategy.calculate_embedding(permanent_file_path)
-        es_manager.index_document(idx + last_id, elastic_file_path, clip_embedding, permanent_file_path.split('.')[-1])
-        
-        image_ids.append(image_id)
+    try:
+        last_id = es_manager.get_last_document_id()
+        for idx, file in enumerate(files):
+            image_id = str(uuid.uuid4())
+            file_extension = file.filename.split('.')[-1]
+            permanent_file_path = os.path.join(Config.DATA_FOLDER, f"{image_id}.{file_extension}")
+            elastic_file_path = os.path.join("/images/", f"{image_id}.{file_extension}")
+            
+            with open(permanent_file_path, "wb") as permanent_file:
+                permanent_file.write(await file.read())
+            
+            clip_embedding = clip_strategy.calculate_embedding(permanent_file_path)
+            es_manager.index_document(idx + last_id, elastic_file_path, clip_embedding, permanent_file_path.split('.')[-1])
+            
+            image_ids.append(image_id)
 
-    return JSONResponse(content={"message": "Files successfully uploaded and indexed."}, status_code=200)
+        return JSONResponse(content={"message": "Files successfully uploaded and indexed."}, status_code=200)
 
 
-    # except Exception as e:
-    #     for image_id in image_ids:
-    #         permanent_file_path = os.path.join(PERMANENT_UPLOAD_FOLDER, f"{image_id}.{file_extension}")
-    #         if os.path.exists(permanent_file_path):
-    #             os.remove(permanent_file_path)
-    #     raise HTTPException(status_code=500, detail=str(e))
+    except Exception as e:
+        for image_id in image_ids:
+            permanent_file_path = os.path.join(PERMANENT_UPLOAD_FOLDER, f"{image_id}.{file_extension}")
+            if os.path.exists(permanent_file_path):
+                os.remove(permanent_file_path)
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/get_all_images")
 async def get_images():
@@ -77,9 +71,9 @@ async def get_images():
 
 @app.post("/get_filtered_images")
 async def get_images(query_model: QueryModel):
-    # try:
-    query = query_model.user_query
-    images = es_manager.find_similarity(query)
-    return {"images": images}
-    # except Exception as e:
-    #     raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
+    try:
+        query = query_model.user_query
+        images = es_manager.find_similarity(query)
+        return {"images": images}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")

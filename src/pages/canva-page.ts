@@ -7,9 +7,7 @@ import { SearchBar } from '../components/searchbar';
 export class CanvaPage {
   page!: HTMLElement;
 
-  constructor() {
-    // this.initPage();
-  }
+  constructor() {}
 
   public async initPage(): Promise<void> {
     // create page container
