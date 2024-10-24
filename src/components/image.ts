@@ -1,28 +1,18 @@
 export class Image {
   image!: HTMLElement;
 
-  constructor(
-    src: string,
-    id: string,
-    width: number = 150,
-    height: number = 150
-  ) {
-    this.initImage(src, id, width, height);
+  constructor(src: string, id: string) {
+    this.initImage(src, id);
     this.addClickListener();
   }
 
-  private initImage(
-    src: string,
-    id: string,
-    width: number,
-    height: number
-  ): void {
+  private initImage(src: string, id: string): void {
     const container = document.createElement('div');
     const image = document.createElement('img');
     image.src = src;
     image.id = id;
-    image.width = width;
-    image.height = height;
+    image.style.width = '100%';
+    image.style.height = 'auto';
     container.appendChild(image);
     this.image = container;
   }

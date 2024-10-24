@@ -12,15 +12,13 @@ export class CanvaController {
     private model: CanvaModel,
     private view: CanvaView,
     private searchBar: SearchBar,
-    columns: number,
-    rows: number,
     name: string
   ) {
     this.model.subscribe((elements: HTMLElement[]) => {
       this.view.update(elements);
     });
 
-    this.view.init(columns, rows, name);
+    this.view.init(name);
     this.view.update(this.model.getElements());
     this.initSearchBar();
   }
@@ -31,12 +29,8 @@ export class CanvaController {
         this.handleSearchQuery(userQuery);
       },
       async () => {
-        const [columns, rows, resp] = await getData();
-        const elements: HTMLElement[] = formatCanvaElements(
-          resp,
-          columns,
-          rows
-        );
+        const resp: string[] = await getData();
+        const elements: HTMLElement[] = formatCanvaElements(resp);
         this.setElements(elements);
       }
     );

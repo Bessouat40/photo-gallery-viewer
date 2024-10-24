@@ -10,7 +10,7 @@ export class Upload {
 
   private initUpload(): void {
     const upload = document.createElement('div');
-    upload.classList.add('upload-container');
+    upload.classList.add('upload-element');
 
     const label = document.createElement('label');
     label.htmlFor = 'images';
