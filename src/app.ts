@@ -29,7 +29,42 @@ export class App {
       });
     });
 
+    // Attach event listener to theme toggle button
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    themeToggleBtn?.addEventListener('click', () => this.toggleTheme());
+
+    // Check for saved theme preference
+    this.loadTheme();
+
     this.route();
+  }
+
+  private toggleTheme(): void {
+    document.body.classList.toggle('light-theme');
+    // Save theme preference
+    const isLight = document.body.classList.contains('light-theme');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+
+    // Update button icon
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    if (themeToggleBtn) {
+      themeToggleBtn.innerHTML = isLight ? '🌜' : '🌞';
+    }
+  }
+
+  private loadTheme(): void {
+    const savedTheme = localStorage.getItem('theme');
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    if (savedTheme === 'light') {
+      document.body.classList.add('light-theme');
+      if (themeToggleBtn) {
+        themeToggleBtn.innerHTML = '🌜';
+      }
+    } else {
+      if (themeToggleBtn) {
+        themeToggleBtn.innerHTML = '🌞';
+      }
+    }
   }
 
   private async route(): Promise<void> {

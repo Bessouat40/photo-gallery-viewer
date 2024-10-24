@@ -40,31 +40,18 @@ export async function storeImages(images: File[]): Promise<number> {
   return resp.status;
 }
 
-export async function getData(): Promise<[number, number, string[]]> {
-  const columns: number = 4;
+export async function getData(): Promise<string[]> {
   const resp = await sendFetch();
   const response: string[] = resp;
-  const rows: number = Math.ceil(response.length / columns);
-
-  return [columns, rows, response];
+  return response;
 }
 
-export const formatCanvaElements = (
-  input: string[],
-  columns: number,
-  rows: number
-): HTMLElement[] => {
-  const elements: HTMLElement[] = [];
-  for (let row = 0; row < rows; row++) {
-    for (let col = 0; col < columns; col++) {
-      let idx: number = col + row * 4;
-      if (idx < input.length) {
-        const fullImageUrl = `${backendURL}${input[idx]}`;
-        const image = new Image(fullImageUrl, `${col}-${row}`, 250, 200);
-        elements.push(image.image);
-      }
-    }
-  }
+export const formatCanvaElements = (input: string[]): HTMLElement[] => {
+  const elements: HTMLElement[] = input.map((item, idx) => {
+    const fullImageUrl = `${backendURL}${item}`;
+    const image = new Image(fullImageUrl, `image-${idx}`);
+    return image.image;
+  });
   return elements;
 };
 
@@ -74,6 +61,6 @@ export async function getFilteredData(
   const columns: number = 4;
   const resp = await sendFilteredFetch(userQuery);
   const rows: number = Math.ceil(resp.length / columns);
-  const elements: HTMLElement[] = formatCanvaElements(resp, columns, rows);
+  const elements: HTMLElement[] = formatCanvaElements(resp);
   return elements;
 }

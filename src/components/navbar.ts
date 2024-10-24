@@ -30,6 +30,15 @@ export class NavBar {
       ul.appendChild(li);
     });
 
+    // Add theme toggle button
+    const themeToggleLi = document.createElement('li');
+    const themeToggleBtn = document.createElement('button');
+    themeToggleBtn.id = 'theme-toggle';
+    themeToggleBtn.innerHTML = '🌓'; // Unicode for a half-moon symbol
+    themeToggleBtn.classList.add('theme-toggle-button');
+    themeToggleLi.appendChild(themeToggleBtn);
+    ul.appendChild(themeToggleLi);
+
     nav.appendChild(ul);
     this.navBar = nav;
   }

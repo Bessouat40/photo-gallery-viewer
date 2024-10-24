@@ -10,11 +10,12 @@ export class UploadPage {
 
   private initPage(): void {
     const container = document.createElement('div');
+    container.classList.add('upload-container');
     const upload = new Upload();
     container.appendChild(upload.upload);
 
     const button = document.createElement('button') as HTMLButtonElement;
-    button.classList.add('search-button');
+    // button.classList.add('upload-button');
     button.textContent = 'Send into database';
 
     button.onclick = async () => {

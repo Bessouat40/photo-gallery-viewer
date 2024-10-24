@@ -10,16 +10,13 @@ export class CanvaPage {
   constructor() {}
 
   public async initPage(): Promise<void> {
-    // create page container
-    const containerDiv = document.createElement('div');
-    containerDiv.classList.add('search-page');
+    const searchPageDiv = document.createElement('div');
+    searchPageDiv.classList.add('search-page');
 
-    // init searchbar
     const searchBar = new SearchBar('main-search');
-    containerDiv.appendChild(searchBar.searchBarContainer);
+    searchPageDiv.appendChild(searchBar.searchBarContainer);
 
-    // init canva
-    const [columns, rows, resp] = await getData();
+    const resp: string[] = await getData();
 
     const name = 'test-canva';
 
@@ -29,14 +26,16 @@ export class CanvaPage {
       canvaModel,
       canvaView,
       searchBar,
-      columns,
-      rows,
       name
     );
+
     canvaView.addStyle('canva');
-    const elements: HTMLElement[] = formatCanvaElements(resp, columns, rows);
+
+    const elements: HTMLElement[] = formatCanvaElements(resp);
     canvaController.setElements(elements);
-    containerDiv.appendChild(canvaView.getCanva());
-    this.page = containerDiv;
+
+    searchPageDiv.appendChild(canvaView.getCanva());
+
+    this.page = searchPageDiv;
   }
 }

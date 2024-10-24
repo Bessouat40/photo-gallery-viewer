@@ -1,74 +1,87 @@
-body,
-html {
+/* Default Theme Variables (Dark Theme) */
+:root {
+  --background-color: #121212;
+  --text-color: #e0e0e0;
+  --nav-background-color: #1e1e1e;
+  --nav-border-color: #333333;
+  --nav-hover-background: #333333;
+  --accent-color: #6200ee;
+  --accent-color-dark: #3700b3;
+  --input-background: #1e1e1e;
+  --input-border: #333333;
+  --input-focus-border: #6200ee;
+  --modal-background: rgba(0, 0, 0, 0.7);
+  --modal-content-background: #1e1e1e;
+  --close-button-color: #ffffff;
+  --close-button-hover-color: #cccccc;
+  --scrollbar-track: #1e1e1e;
+  --scrollbar-thumb: #333333;
+  --scrollbar-thumb-hover: #444444;
+  --icon-filter: none;
+  --icon-hover-filter: brightness(1.2);
+}
+
+/* Light Theme Variables */
+.light-theme {
+  --background-color: #f9f9f9;
+  --text-color: #333333;
+  --nav-background-color: #ffffff;
+  --nav-border-color: #e0e0e0;
+  --nav-hover-background: #e0e0e0;
+  --accent-color: #3f51b5;
+  --accent-color-dark: #303f9f;
+  --input-background: #ffffff;
+  --input-border: #cccccc;
+  --input-focus-border: #3f51b5;
+  --modal-background: rgba(0, 0, 0, 0.5);
+  --modal-content-background: #ffffff;
+  --close-button-color: #333333;
+  --close-button-hover-color: #666666;
+  --scrollbar-track: #e0e0e0;
+  --scrollbar-thumb: #cccccc;
+  --scrollbar-thumb-hover: #b0b0b0;
+  --icon-filter: invert(1);
+  --icon-hover-filter: invert(1) brightness(0.8);
+}
+
+/* Reset default margins and paddings */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+/* Set the body and html to take full height and width */
+body,
+html {
   width: 100%;
   height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
-body {
+/* Container holds the navbar and content side by side */
+.container {
   display: flex;
   flex-direction: row;
-  background-color: rgb(102, 107, 111);
-  width: 100%;
   height: 100vh;
-  overflow: hidden;
-}
-
-.content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  overflow-x: auto;
-}
-
-.upload-container {
   width: 100%;
-  padding-top: 20px;
-  flex-direction: column;
-  display: flex;
-  align-items: center;
 }
 
-.upload-container input[type='file'] {
-  display: none;
-}
-
-.upload-container label span {
-  color: white;
-  padding: 8px 12px;
-  background-color: #444;
-  border: 1px dashed #ccc;
-  cursor: pointer;
-}
-
-.upload-container label span:hover {
-  background-color: #b4b4b4;
-}
-
-.upload-container p {
-  color: white;
-}
-
-.search-page {
-  display: flex;
-
-  width: 100%;
-  padding-top: 20px;
-  flex-direction: column;
-  align-items: center;
-}
-
+/* Vertical Navbar styles */
 .vertical-nav {
-  background-color: #333;
+  width: 7vw;
+  background-color: var(--nav-background-color);
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 20px;
+  overflow-y: auto;
+  border-right: 1px solid var(--nav-border-color);
 }
 
+/* Navbar list styles */
 .vertical-nav ul {
   list-style-type: none;
   padding: 0;
@@ -76,6 +89,7 @@ body {
   width: 100%;
 }
 
+/* Navbar items */
 .vertical-nav ul li {
   width: 100%;
   margin-bottom: 20px;
@@ -88,43 +102,119 @@ body {
   width: 100%;
   height: 60px;
   text-decoration: none;
-  background: transparent;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+}
+
+.vertical-nav ul li a:hover {
+  background-color: var(--nav-hover-background);
 }
 
 .vertical-nav ul li a img {
-  width: 100%;
-  height: 70px;
-  background: transparent;
+  width: 70%;
+  height: auto;
+  filter: var(--icon-filter);
+  transition: filter 0.3s ease;
 }
 
 .vertical-nav ul li a img:hover {
-  background-color: #444;
+  filter: var(--icon-hover-filter);
 }
 
-.canva-container {
-  flex-grow: 1;
+/* Content area styles */
+.content {
+  flex: 1;
   display: flex;
+  flex-direction: column;
+  overflow: auto;
+  background-color: var(--background-color);
+}
+
+/* Search page styles */
+.search-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 20px;
-  overflow: hidden;
+  width: 100%;
 }
 
-.canva {
-  gap: 50px;
-  padding: 15px;
-  background-color: rgb(102, 107, 111);
-  overflow-y: auto;
-  max-height: 100%;
+/* Search bar container styles */
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  padding-bottom: 20px;
+  gap: 10px;
 }
 
-.canva img {
-  border-radius: 10px;
+.search {
+  width: 250px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  background-color: var(--input-background);
+  color: var(--text-color);
 }
 
-.canva img:hover {
-  transform: scale(1.07);
+.search:focus {
+  outline: none;
+  border-color: var(--input-focus-border);
+}
+
+.search-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--accent-color);
+  color: #ffffff;
   cursor: pointer;
 }
 
+.search-button:hover {
+  background-color: var(--accent-color-dark);
+}
+
+/* Canvas container styles */
+.canva {
+  overflow-y: auto;
+  max-height: 100%;
+  width: 100%;
+  max-width: 1400px;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-auto-rows: auto;
+  gap: 20px;
+  padding: 20px;
+  background-color: var(--background-color);
+  margin: 0 auto;
+}
+
+/* Each div containing the image */
+.canva div {
+  position: relative;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.canva img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+/* Hover effect for images */
+.canva div:hover img {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+/* Modal styles */
 .modal {
   display: flex;
   justify-content: center;
@@ -135,7 +225,7 @@ body {
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: var(--modal-background);
 }
 
 .modal-content {
@@ -144,45 +234,132 @@ body {
   max-width: 500px;
 }
 
+.modal-content img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
 .close-button {
-  color: #aaa;
-  float: right;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  color: var(--close-button-color);
   font-size: 28px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .close-button:hover,
 .close-button:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
+  color: var(--close-button-hover-color);
 }
 
-.search-bar-container {
+/* Upload container styles */
+.upload-container {
+  width: 100%;
+  height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  padding-bottom: 10px;
-  gap: 10px;
+  padding-top: 20px;
+  gap: 35px;
+  background-color: var(--background-color);
 }
 
-.search {
-  width: 200px;
-  padding: 5px;
-  font-size: 16px;
-  border: 1px solid #ccc;
+.upload-container label span {
+  color: var(--text-color);
+  padding: 10px 20px;
+  background-color: var(--accent-color);
+  border: 2px;
   border-radius: 4px;
-}
-
-.search-button {
-  padding: 5px 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #444;
-  color: white;
   cursor: pointer;
 }
 
-.search-button:hover {
-  background-color: #b4b4b4;
+.upload-element {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 35px;
+}
+
+.upload-container label span:hover {
+  background-color: var(--accent-color-dark);
+}
+
+.upload-container p {
+  color: var(--text-color);
+  font-size: 18px;
+}
+
+.upload-container button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--accent-color);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.upload-container button:hover {
+  background-color: var(--accent-color-dark);
+}
+
+.upload-container input[type='file'] {
+  display: none;
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .vertical-nav {
+    width: 60px;
+  }
+
+  .vertical-nav ul li a img {
+    width: 80%;
+  }
+
+  .search {
+    width: 100%;
+  }
+
+  .search-bar-container {
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+/* Theme Toggle Button Styles */
+.theme-toggle-button {
+  width: 100%;
+  height: 60px;
+  background-color: transparent;
+  border: none;
+  color: var(--text-color);
+  font-size: 24px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.theme-toggle-button:hover {
+  background-color: var(--nav-hover-background);
 }
