@@ -57,7 +57,7 @@ mv src/config_template.json src/config.json
 - [x] Add CLIP use for image filtering,
 - [x] Change elasticsearch database : store only embeddings + ref to local images and not encoded images,
 - [x] Change CLIP filter to match new software structure,
-- [ ] Improve frontend,
+- [x] Improve frontend,
 - [ ] Work on an easy launching method,
 - [ ] Add paging,
 - [ ] Application conteneurisation,
