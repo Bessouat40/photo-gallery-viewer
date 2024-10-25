@@ -2,6 +2,9 @@
 
 This project allows you to visualize your images stored inside an Elastic database.
 
+![darkMode](./media/dark.png)
+![lightMode](./media/light.png)
+
 ## Launch application
 
 - You need to launch frontend :
@@ -48,10 +51,6 @@ mv src/config_template.json src/config.json
   "backendURL": // ex : http://localhost:8000
 }
 ```
-
-## Application
-
-[Demonstration](https://x.com/rbessouat/status/1844468605368594876)
 
 ## TODO
 
