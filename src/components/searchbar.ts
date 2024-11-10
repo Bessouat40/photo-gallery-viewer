@@ -32,7 +32,7 @@ export class SearchBar {
 
     const clearButton = document.createElement('button') as HTMLButtonElement;
     clearButton.classList.add('search-button');
-    clearButton.textContent = 'Clear';
+    clearButton.textContent = 'Clear Search';
 
     clearButton.onclick = () => {
       if (this.clearCallback) {
