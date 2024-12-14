@@ -1,4 +1,4 @@
-# File Explorer
+# Photo Gallery Viewer
 
 This project allows you to visualize your images stored inside an Elastic database.
 
